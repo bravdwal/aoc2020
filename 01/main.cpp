@@ -17,7 +17,8 @@ std::vector<int> read_input(const std::string& path) {
 
 int main(void) {
     std::vector<int> input = read_input("input.txt");
-
+    
+    // Brute forcing excersise 1
     for (int i = 0; i < input.size(); i++) {
         for (int j = i + 1; j < input.size(); j++) {
             if (input[i] + input[j] == VALUE) {
@@ -26,6 +27,7 @@ int main(void) {
         }
     }
 
+    // Brute forcing excersise 2    
     for (int i = 0; i < input.size(); i++) {
         for (int j = i + 1; j < input.size(); j++) {
             for (int k = j + 1; k < input.size(); k++) {
