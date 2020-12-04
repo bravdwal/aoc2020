@@ -36,7 +36,7 @@ sub valid_hgt {
 
 sub valid_hcl {
     local ($hcl) = @_;
-    return $hcl =~ /^#([0-9]|[a-f]){6}$/ ? 1 : 0;
+    return $hcl =~ /^#[0-9a-f]{6}$/ ? 1 : 0;
 }
 
 sub valid_ecl {
