@@ -1,9 +1,10 @@
 # USAGE: perl day04.pl <input-file>
 
+# read file in paragraph mode
 $/ = "";
 
-$c = 0;
-$cc = 0;
+$c = 0; # counter for part 1
+$cc = 0; # counter for part 2
 
 sub valid_byr {
     local ($byr) = @_;
@@ -59,7 +60,13 @@ while (<>) {
     #print "\n\n";
 
     # Part 1
-    if (exists $h{byr} && exists $h{iyr} && exists $h{eyr} && exists $h{hgt} && exists $h{hcl} && exists $h{ecl} && exists $h{pid}) {
+    if (exists $h{byr} &&
+	exists $h{iyr} &&
+	exists $h{eyr} &&
+	exists $h{hgt} &&
+	exists $h{hcl} &&
+	exists $h{ecl} &&
+	exists $h{pid}) {
 	$c++;
     }
 
@@ -75,5 +82,5 @@ while (<>) {
     }
 }
 
-print "There were $c valid passwords found for part 1\n";
-print "There were $cc valid passwords found for part 2\n";
+print "Part 1: $c\n";
+print "Part 2: $cc\n";
