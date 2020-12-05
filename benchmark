@@ -1,0 +1,14 @@
+#!/bin/sh
+day="$(printf '%02d' "$1")"
+part="$2"
+inputfile="$day/input.txt"
+
+[ -x "prepare" ] || exit 0
+[ -x "run" ] || exit 0
+
+if ! ./prepare "$day" "$part" "$inputfile"; then
+	echo 'eh ge hebt precies niet alles geïnstalleerd staan'
+	exit
+fi
+
+hyperfine "./run '$day' '$part' '$inputfile'"
