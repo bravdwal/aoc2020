@@ -1,0 +1,7 @@
+#!/bin/sh
+
+day="$(printf '%02d' "$1")"
+part="$2"
+input="$3"
+
+perl "${day}/day${day}-${part}.pl" "${input}"
