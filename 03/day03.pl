@@ -1,4 +1,5 @@
-# USAGE: perl day03.pl <input-file>
+# USAGE 1: perl day03.pl <input-file>
+# USAGE 2: <OUTPUT> | perl day03.pl
 
 $ROW_SIZE = 31;
 

@@ -1,4 +1,5 @@
-# USAGE: perl day01.pl <input-file>
+# USAGE 1: perl day01.pl <input-file>
+# USAGE 2: <OUTPUT> | perl day01.pl
 
 while (<>) {
   $_ =~ /^(\d+)$/;

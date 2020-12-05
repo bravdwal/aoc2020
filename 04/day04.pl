@@ -1,4 +1,5 @@
-# USAGE: perl day04.pl <input-file>
+# USAGE 1: perl day04.pl <input-file>
+# USAGE 2: <OUTPUT> | perl day04.pl
 
 # read file in paragraph mode
 $/ = "";
