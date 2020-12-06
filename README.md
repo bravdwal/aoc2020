@@ -15,5 +15,5 @@ Executing all parts of a certain day:
 Prerequisite: having [hyperfine](https://github.com/sharkdp/hyperfine) installed
 
 ```sh
-    $ ./benchmark <day> <part>
+    $ ./benchmark <day> <part> <input>
 ```
