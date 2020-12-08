@@ -17,6 +17,7 @@ sub replace_jmp_nop {
 }
 
 # Read the boot code
+$i = 0;
 while (<>) {
     chomp;
     push @boot, [];
@@ -26,14 +27,16 @@ while (<>) {
     push @{$boot[-1]}, "$1"; # boot[...]->[0] = opcode
     push @{$boot[-1]}, "$2"; # boot[...]->[1] = arg
     push @{$boot[-1]}, 0; # boot[...] ->[2] = visited
+
+    push @jns, $i if $1 ne "acc"; # keep rack of jmps and nops
+    $i++;
 }
 
 #print join("\n", map {"$boot[$_]->[0] $boot[$_]->[1] $boot[$_]->[2]"} keys @boot), "\n";
 
 $acc = 0; # accumulator
-$i = 0; # current index in code
-$l = 0; # last index in code
-$j = -1; # current index of changed opcode (jmp <-> nop)
+$i = 0; # index of next opcode to execute in boot code
+$j = -1; # index in @jns of changed opcode (jmp <-> nop)
 
 while ($i < @boot) {
     $l = $i;
@@ -48,13 +51,12 @@ while ($i < @boot) {
 	    $i++;
 	}
     } else {
-	replace_jmp_nop(\@boot, $j) unless $j < 0;
-	$j++;
-	while ($boot[$j]->[0] eq "acc") {
-	    $j++;
-	}
-	replace_jmp_nop(\@boot, $j);
-	
+	# If an opcode was changed before, undo this change
+	replace_jmp_nop(\@boot, $jns[$j]) unless $j < 0;
+	$j++; # Maybe the next jmp or nop need to be changed
+	replace_jmp_nop(\@boot, $jns[$j]);
+
+	# Reset the visited, $i and $acc
 	clear_boot_visits(\@boot);
 	$i = 0;
 	$acc = 0;
