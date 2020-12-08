@@ -1,14 +1,5 @@
 # USAGE: perl day08.pl <INPUT>
 
-sub replace_jmp_nop {
-    local ($boot, $pc) = @_;
-    if ($boot->[$pc]->[0] eq "jmp") {
-	$boot->[$pc]->[0] = "nop";
-    } elsif ($boot->[$pc]->[0] eq "nop") {
-	$boot->[$pc]->[0] = "jmp";
-    }
-}
-
 # Read the boot code
 $pc = 0;
 while (<>) {
@@ -17,7 +8,7 @@ while (<>) {
 
     $_ =~ /(\w+) ([+-]\d+)/;
 
-    push @{$boot[-1]}, "$1"; # boot[...]->[0] = opcode
+    push @{$boot[-1]}, "$1" eq "jmp" ? 0 : "$1" eq "nop" ? 1 : 2; # boot[...]->[0] = opcode
     push @{$boot[-1]}, "$2"; # boot[...]->[1] = arg
 
     push @jns, $pc if $1 ne "acc"; # keep rack of jmps and nops
@@ -33,10 +24,10 @@ $j = -1; # index in @jns of changed opcode (jmp <-> nop)
 while ($pc < @boot) {
     if ($visits{$pc} != 1) {
 	$visits{$pc} = 1;
-	if ($boot[$pc]->[0] eq "acc") {
+	if ($boot[$pc]->[0] == 2) {
 	    $acc += $boot[$pc]->[1];
 	    $pc++;
-	} elsif ($boot[$pc]->[0] eq "jmp") {
+	} elsif ($boot[$pc]->[0] == 0) {
 	    $pc += $boot[$pc]->[1];
 	} else {
 	    $pc++;
@@ -46,9 +37,9 @@ while ($pc < @boot) {
 	print "Part 1: $acc\n" if $j < 0;
 
 	# If an opcode was changed before, undo this change
-	replace_jmp_nop(\@boot, $jns[$j]) unless $j < 0;
+	$boot[$jns[$j]]->[0] = ($boot[$jns[$j]]->[0] + 1) % 2 unless $j < 0;
 	$j++; # Maybe the next jmp or nop need to be changed
-	replace_jmp_nop(\@boot, $jns[$j]);
+	$boot[$jns[$j]]->[0] = ($boot[$jns[$j]]->[0] + 1) % 2;
 
 	# Reset the visited, $pc and $acc
 	%visits = ();
