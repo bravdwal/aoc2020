@@ -12,15 +12,6 @@ sub is_valid {
     return 0;
 }
 
-sub summation {
-    local ($arr) = @_;
-    local $sum = 0;
-    for (local $i = 0; $i < @{$arr}; $i++) {
-	$sum += $arr->[$i];
-    }
-    return $sum;
-}
-
 for ($i = 0; $i < $PSIZE; $i++) {
     $_ = <>;
     chomp;
@@ -44,16 +35,15 @@ while (<>) {
 
 for ($i = 0; $i < @list - 1; $i++) {
     @solution = ();
-    push @solution, $list[$i];
-    push @solution, $list[$i + 1];
+    $sum = 0;
+    $j = $i;
 
-    $j = $i + 2;
-
-    while (summation(\@solution) < $invalid) {
-	push @solution, $list[$j++];
+    while ($sum < $invalid) {
+      $sum += $list[$j];
+      push @solution, $list[$j++];
     }
 
-    if (summation(\@solution) == $invalid) {
+    if ($sum == $invalid) {
 	$min_idx = 0;
 	$max_idx = 0;
 	for ($k = 1; $k < @solution; $k++) {
